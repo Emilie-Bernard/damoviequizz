@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { Typography, Button, Modal } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { Typography, Button } from '@material-ui/core';
+
+import GameOver from './GameOver'
 
 function Game() {
 	const [seconds, setSeconds] = useState(60);
 	const [score, setScore] = useState(0);
 	const [show, setShow] = useState(false);
-	const classes = useStyles();
 
 	useEffect(() => {
 		let myInterval = setInterval(() => {
-			if (seconds > 0) {
+			if (seconds > 0 && show === false) {
 				setSeconds(seconds - 1);
 			}
 			if (seconds === 0) {
@@ -23,24 +23,14 @@ function Game() {
 	});
 
 	function gameOver() {
-		setSeconds('End');
 		setShow(true);
+        setSeconds(60);
 	}
-
-	const handleClose = () => {
-		setShow(false);
-	};
 
 	const handleOpen = () => {
 		setShow(true);
 	};
 
-	const body = (
-		<div className={classes.paper}>
-			<h2 id="simple-modal-title">Text in a modal</h2>
-			<p id="simple-modal-description">Duis mollis, est non commodo luctus, nisi erat porttitor ligula.</p>
-		</div>
-	);
 	return (
 		<div>
 			<h1> {seconds} </h1>
@@ -64,35 +54,13 @@ function Game() {
 				<Button variant="contained" color="primary" onClick={() => setScore(score + 1)}>
 					Oui
 				</Button>
-				<Button variant="contained" onClick={() => handleOpen()}>
+				<Button variant="contained" onClick={() => gameOver()}>
 					Non
 				</Button>
 			</div>
-			<Modal
-				style={{
-					margin: 'auto',
-					alignItems: 'center',
-					justifyContent: 'center',
-					display: 'flex',
-				}}
-				open={show}
-				onClose={handleClose}
-			>
-				{body}
-			</Modal>
+			<GameOver open={show} changeOpen={setShow} score={score} changeScore={setScore} />
 		</div>
 	);
 }
-
-const useStyles = makeStyles((theme) => ({
-	paper: {
-		position: 'absolute',
-		width: 400,
-		backgroundColor: theme.palette.background.paper,
-		border: '2px solid #000',
-		boxShadow: theme.shadows[5],
-		padding: theme.spacing(2, 4, 3),
-	},
-}));
 
 export default Game;

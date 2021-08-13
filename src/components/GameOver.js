@@ -2,37 +2,36 @@ import React, { useState } from 'react';
 import { Typography, Button, Modal } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
-function GameOver() {
-	const [show, setShow] = useState(false);
+function GameOver({ open, changeOpen, score, changeScore }) {
 	const classes = useStyles();
 
 	const handleClose = () => {
-		setShow(false);
-	};
-
-	const handleOpen = () => {
-		setShow(true);
+		changeOpen(false);
+		changeScore(0);
 	};
 
 	const body = (
 		<div className={classes.paper}>
-			<h2 id="simple-modal-title">Text in a modal</h2>
-			<p id="simple-modal-description">Duis mollis, est non commodo luctus, nisi erat porttitor ligula.</p>
+			<h2 id="simple-modal-title">Game Over</h2>
+			<p id="simple-modal-description">Votre score : {score}</p>
+			<Button variant="contained" onClick={() => handleClose()}>
+				Rejouer
+			</Button>
 		</div>
 	);
 	return (
-			<Modal
-				style={{
-					margin: 'auto',
-					alignItems: 'center',
-					justifyContent: 'center',
-					display: 'flex',
-				}}
-				open={show}
-				onClose={handleClose}
-			>
-				{body}
-			</Modal>
+		<Modal
+			style={{
+				margin: 'auto',
+				alignItems: 'center',
+				justifyContent: 'center',
+				display: 'flex',
+			}}
+			open={open}
+			onClose={handleClose}
+		>
+			{body}
+		</Modal>
 	);
 }
 
