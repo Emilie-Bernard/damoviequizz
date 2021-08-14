@@ -1,20 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import { Typography, Button } from '@material-ui/core';
 
-import GameOver from './GameOver'
-import { getMovie, getActor, getActorFromMovie } from '../services/ApiConnect';
+import GameOver from './GameOver';
+import { getMovie, getActor, getActorFromMovie, checkIfActorInMovie } from '../services/ApiConnect';
 
 function Game() {
 	const [seconds, setSeconds] = useState(60);
 	const [score, setScore] = useState(0);
 	const [show, setShow] = useState(false);
-    const [actor, setActor] = useState([]);
-    const [movie, setMovie] = useState([]);
-    let rand = 0;
-
+	const [actor, setActor] = useState([]);
+	const [movie, setMovie] = useState([]);
 
 	useEffect(() => {
-		let myInterval = setInterval(() => {
+		let myInterval = setInterval(async () => {
+			if (seconds === 60 && show === false) {
+				const newMovie = await getMovie();
+				setMovie(newMovie);
+				let rand = Math.floor(Math.random() * 50);
+				if (rand % 3 === 0) setActor(await getActorFromMovie(newMovie.id));
+				else setActor(await getActor());
+			}
+
 			if (seconds > 0 && show === false) {
 				setSeconds(seconds - 1);
 			}
@@ -29,15 +35,15 @@ function Game() {
 
 	const gameOver = async () => {
 		setShow(true);
-        setSeconds(60);
-        const newMovie = await getMovie();
-        setMovie(newMovie);
-        rand = Math.floor(Math.random() * (50));
-        if (rand%3 === 0) 
-            setActor(await getActorFromMovie(newMovie.id));
-        else
-            setActor(await getActor());
-	}
+	};
+
+	const check = async (button) => {
+		const value = await checkIfActorInMovie(movie.id, actor.id);
+		console.log(value);
+		if (value !== button) gameOver();
+		else setScore(score + 1);
+		setSeconds(60);
+	};
 
 	return (
 		<div>
@@ -56,10 +62,10 @@ function Game() {
 			</div>
 			<h1> score : {score} </h1>
 			<div style={{ padding: 30 }}>
-				<Button variant="contained" color="primary" onClick={() => setScore(score + 1)}>
+				<Button variant="contained" color="primary" onClick={() => check(true)}>
 					Oui
 				</Button>
-				<Button variant="contained" onClick={() => gameOver()}>
+				<Button variant="contained" onClick={() => check(false)}>
 					Non
 				</Button>
 			</div>

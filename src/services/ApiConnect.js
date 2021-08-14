@@ -52,3 +52,18 @@ export const getActorFromMovie = (movieId) => {
 		})
 		.catch((error) => console.log(error));
 };
+
+export const checkIfActorInMovie = (movieId, actorId) => {
+	let actors = [];
+	return axios
+		.get(baseUrl + 'movie/' + movieId + '/credits', {
+			params: { api_key: API_KEY },
+		})
+		.then((res) => {
+			for (const id in res.data.cast) {
+				actors.push(res.data.cast[id].id);
+			}
+			return actors.includes(actorId);
+		})
+		.catch((error) => console.log(error));
+};
