@@ -40,7 +40,6 @@ function Game() {
 
 	const check = async (button) => {
 		const value = await checkIfActorInMovie(movie.id, actor.id);
-		console.log(value);
 		if (value !== button) gameOver();
 		else setScore(score + 1);
 		setSeconds(60);
