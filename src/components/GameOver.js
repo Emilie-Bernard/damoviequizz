@@ -28,7 +28,6 @@ function GameOver({ open, changeOpen, score, changeScore }) {
 				display: 'flex',
 			}}
 			open={open}
-			onClose={handleClose}
 		>
 			{body}
 		</Modal>

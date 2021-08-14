@@ -2,11 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { Typography, Button } from '@material-ui/core';
 
 import GameOver from './GameOver'
+import { getMovie, getActor, getActorFromMovie } from '../services/ApiConnect';
 
 function Game() {
 	const [seconds, setSeconds] = useState(60);
 	const [score, setScore] = useState(0);
 	const [show, setShow] = useState(false);
+    const [actor, setActor] = useState([]);
+    const [movie, setMovie] = useState([]);
+    let rand = 0;
+
 
 	useEffect(() => {
 		let myInterval = setInterval(() => {
@@ -22,32 +27,32 @@ function Game() {
 		};
 	});
 
-	function gameOver() {
+	const gameOver = async () => {
 		setShow(true);
         setSeconds(60);
+        const newMovie = await getMovie();
+        setMovie(newMovie);
+        rand = Math.floor(Math.random() * (50));
+        if (rand%3 === 0) 
+            setActor(await getActorFromMovie(newMovie.id));
+        else
+            setActor(await getActor());
 	}
-
-	const handleOpen = () => {
-		setShow(true);
-	};
 
 	return (
 		<div>
 			<h1> {seconds} </h1>
-			<Typography style={{ paddingBottom: 16 }}>Est-ce que cet acteur apparaît dans ce film ?</Typography>
+			<Typography style={{ paddingBottom: 16 }}>
+				Est-ce que cet acteur : {actor.name} apparaît dans ce film : {movie.title}?
+			</Typography>
 			<div>
 				<img
 					alt="actor"
 					width="250"
 					height="350"
-					src="https://upload.wikimedia.org/wikipedia/commons/6/67/Keanu_Reeves-2019.jpg"
+					src={'https://image.tmdb.org/t/p/w500' + actor.profile_path}
 				/>
-				<img
-					alt="movie"
-					width="250"
-					height="350"
-					src="https://cdn.shopify.com/s/files/1/0747/3829/products/mHP0101_1024x1024.jpeg?v=1571444280"
-				/>
+				<img alt="movie" width="250" height="350" src={'https://image.tmdb.org/t/p/w500' + movie.poster_path} />
 			</div>
 			<h1> score : {score} </h1>
 			<div style={{ padding: 30 }}>

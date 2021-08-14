@@ -2,12 +2,6 @@ import React, {useState} from "react";
 import { TextField, Button, FormLabel } from '@material-ui/core';
 
 function Initial({stateChanger}) {
-  
-  function handleSubmit(e) {
-    e.preventDefault();
-    
-  }
-
   return (
     <FormLabel>
         <div>
