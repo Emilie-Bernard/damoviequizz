@@ -35,6 +35,7 @@ function Game() {
 
 	const gameOver = async () => {
 		setShow(true);
+		setSeconds(60);
 	};
 
 	const check = async (button) => {

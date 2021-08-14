@@ -1,9 +1,18 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Typography, Button, Modal } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 function GameOver({ open, changeOpen, score, changeScore }) {
 	const classes = useStyles();
+    const [bestValue, setBestValue] = useState(localStorage.getItem('bestValue') || '');
+
+
+  useEffect(() => {
+      if (bestValue < score) {
+		localStorage.setItem('bestValue', bestValue);
+        setBestValue(score)
+      }
+  }, [score, bestValue]);
 
 	const handleClose = () => {
 		changeOpen(false);
@@ -14,6 +23,7 @@ function GameOver({ open, changeOpen, score, changeScore }) {
 		<div className={classes.paper}>
 			<h2 id="simple-modal-title">Game Over</h2>
 			<p id="simple-modal-description">Votre score : {score}</p>
+			<p id="simple-modal-description">Meilleur Score : {bestValue}</p>
 			<Button variant="contained" onClick={() => handleClose()}>
 				Rejouer
 			</Button>
