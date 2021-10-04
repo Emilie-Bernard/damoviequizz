@@ -1,7 +1,7 @@
 import axios from 'axios';
 import {baseUrl} from './constances';
 
-export const API_KEY = process.env.REACT_APP_API_KEY||'7ea5f490261a949e52930517e1b4657c'; //verifie que la key est bonne pour le test a enlever
+export const API_KEY = process.env.REACT_APP_API_KEY;
 
 export const getMovie = () => {
 	console.log(API_KEY);
