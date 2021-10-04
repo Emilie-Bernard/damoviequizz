@@ -1,11 +1,14 @@
 import axios from 'axios';
-export const baseUrl = 'https://api.themoviedb.org/3/';
-export const API_KEY = '7ea5f490261a949e52930517e1b4657c';
+import {baseUrl} from './constances';
+
+export const API_KEY = process.env.REACT_APP_API_KEY;
 
 export const getMovie = () => {
+	console.log(API_KEY);
+	console.log(baseUrl);
 	let min = 1;
-	let max = 200;
-	let rand = min + Math.random() * (max - min);
+	let max = 100;
+	let rand = Math.floor(min + Math.random() * (max - min));
 	return axios
 		.get(baseUrl + 'movie/popular', {
 			params: { api_key: API_KEY, page: rand },
@@ -20,9 +23,11 @@ export const getMovie = () => {
 };
 
 export const getActor = () => {
+	console.log(API_KEY);
+	console.log(baseUrl);
 	let min = 1;
-	let max = 200;
-	let rand = min + Math.random() * (max - min);
+	let max = 100;
+	let rand = Math.floor(min + Math.random() * (max - min));
 	return axios
 		.get(baseUrl + 'person/popular', {
 			params: { api_key: API_KEY, page: rand },
@@ -37,9 +42,11 @@ export const getActor = () => {
 };
 
 export const getActorFromMovie = (movieId) => {
+	console.log(API_KEY);
+	console.log(baseUrl);
 	let min = 1;
-	let max = 200;
-	let rand = min + Math.random() * (max - min);
+	let max = 100;
+	let rand = Math.floor(min + Math.random() * (max - min));
 	return axios
 		.get(baseUrl + 'movie/' + movieId + '/credits', {
 			params: { api_key: API_KEY },
@@ -54,6 +61,8 @@ export const getActorFromMovie = (movieId) => {
 };
 
 export const checkIfActorInMovie = (movieId, actorId) => {
+	console.log(API_KEY);
+	console.log(baseUrl);
 	let actors = [];
 	return axios
 		.get(baseUrl + 'movie/' + movieId + '/credits', {
