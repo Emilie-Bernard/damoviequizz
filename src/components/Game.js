@@ -14,11 +14,7 @@ function Game() {
 	useEffect(() => {
 		let myInterval = setInterval(async () => {
 			if (seconds === 60 && show === false) {
-				const newMovie = await getMovie();
-				setMovie(newMovie);
-				let rand = Math.floor(Math.random() * 50);
-				if (rand % 3 === 0) setActor(await getActorFromMovie(newMovie.id));
-				else setActor(await getActor());
+				findFilmMovie();
 			}
 
 			if (seconds > 0 && show === false) {
@@ -33,6 +29,14 @@ function Game() {
 		};
 	});
 
+	const findFilmMovie = async () => {
+		const newMovie = await getMovie();
+		setMovie(newMovie);
+		let rand = Math.floor(Math.random() * 50);
+		if (rand % 3 === 0) setActor(await getActorFromMovie(newMovie.id));
+		else setActor(await getActor());
+	};
+
 	const gameOver = async () => {
 		setShow(true);
 		setSeconds(60);
@@ -41,8 +45,10 @@ function Game() {
 	const check = async (button) => {
 		const value = await checkIfActorInMovie(movie.id, actor.id);
 		if (value !== button) gameOver();
-		else setScore(score + 1);
-		setSeconds(60);
+		else {
+			setScore(score + 1);
+			findFilmMovie();
+		};
 	};
 
 	return (
