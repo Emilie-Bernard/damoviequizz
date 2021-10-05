@@ -4,10 +4,8 @@ import {baseUrl} from './constances';
 export const API_KEY = process.env.REACT_APP_API_KEY;
 
 export const getMovie = () => {
-	console.log(API_KEY);
-	console.log(baseUrl);
 	let min = 1;
-	let max = 100;
+	let max = 50;
 	let rand = Math.floor(min + Math.random() * (max - min));
 	return axios
 		.get(baseUrl + 'movie/popular', {
@@ -23,10 +21,8 @@ export const getMovie = () => {
 };
 
 export const getActor = () => {
-	console.log(API_KEY);
-	console.log(baseUrl);
 	let min = 1;
-	let max = 100;
+	let max = 50;
 	let rand = Math.floor(min + Math.random() * (max - min));
 	return axios
 		.get(baseUrl + 'person/popular', {
@@ -42,10 +38,8 @@ export const getActor = () => {
 };
 
 export const getActorFromMovie = (movieId) => {
-	console.log(API_KEY);
-	console.log(baseUrl);
 	let min = 1;
-	let max = 100;
+	let max = 50;
 	let rand = Math.floor(min + Math.random() * (max - min));
 	return axios
 		.get(baseUrl + 'movie/' + movieId + '/credits', {
@@ -61,8 +55,6 @@ export const getActorFromMovie = (movieId) => {
 };
 
 export const checkIfActorInMovie = (movieId, actorId) => {
-	console.log(API_KEY);
-	console.log(baseUrl);
 	let actors = [];
 	return axios
 		.get(baseUrl + 'movie/' + movieId + '/credits', {
