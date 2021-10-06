@@ -1,18 +1,23 @@
 import React, { useEffect, useState } from 'react';
-import { Typography, Button, Modal } from '@material-ui/core';
+import { CircularProgress, Button, Modal } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { initData } from '../utilities/utils';
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 function GameOver({ open, changeOpen, score, changeScore }) {
 	const classes = useStyles();
-    const [bestValue, setBestValue] = useState(localStorage.getItem('bestValue') || '');
+	const [bestValue, setBestValue] = useState(localStorage.getItem('bestValue') || '');
+	const { loading } = useSelector(state => state);
+	const dispatch = useDispatch();
 
-
-  useEffect(() => {
-      if (bestValue < score) {
-		localStorage.setItem('bestValue', bestValue);
-        setBestValue(score)
-      }
-  }, [score, bestValue]);
+	useEffect(() => {
+		if (bestValue < score) {
+			localStorage.setItem('bestValue', bestValue);
+			setBestValue(score)
+		}
+		initData(dispatch);
+	}, [score, bestValue]);
 
 	const handleClose = () => {
 		changeOpen(false);
@@ -24,9 +29,12 @@ function GameOver({ open, changeOpen, score, changeScore }) {
 			<h2 id="simple-modal-title">Game Over</h2>
 			<p id="simple-modal-description">Votre score : {score}</p>
 			<p id="simple-modal-description">Meilleur Score : {bestValue}</p>
-			<Button variant="contained" onClick={() => handleClose()}>
-				Rejouer
-			</Button>
+			{loading
+				? <CircularProgress />
+				: <Button variant="contained" onClick={() => handleClose()}>
+					Rejouer
+				</Button>
+			}
 		</div>
 	);
 	return (

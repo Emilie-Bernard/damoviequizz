@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import { CircularProgress, Button, FormLabel } from '@material-ui/core';
-import { useDispatch, useSelector } from "react-redux";
-import { getMovies, getActors, getActorsFromMovie } from '../services/ApiConnect';
+import { useSelector } from "react-redux";
+import { initData } from '../utilities/utils'
+import { useDispatch } from "react-redux";
 
 
 function Initial({ stateChanger }) {
@@ -9,33 +10,8 @@ function Initial({ stateChanger }) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    initData();
+    initData(dispatch);
   }, []);
-
-  const initData = async () => {
-    dispatch({
-      type: "SETLOADING",
-      loading: true
-    });
-    let movies = await getMovies();
-    movies.map(async (movie) => {
-      const actorsfrommovie = await getActorsFromMovie(movie.id);
-      movie.cast = actorsfrommovie;
-    });
-    const actors = await getActors();
-    dispatch({
-      type: "INITMOVIES",
-      movies: movies
-    });
-    dispatch({
-      type: "INITACTORS",
-      actors: actors
-    });
-    dispatch({
-      type: "SETLOADING",
-      loading: false
-    });
-  };
 
   return (
     <div>

@@ -36,8 +36,8 @@ function Game() {
 
 	const findFilmMovie = async () => {
 		const newMovie = sample(movies)
-		const rand = getRandom(0,2);
-		if (rand % 2 == 1) setActor(sample(actors));
+		setMovie(newMovie);
+		if (Math.round(Math.random()) % 2) setActor(sample(actors));
 		else setActor(sample(newMovie.cast));
 	};
 
@@ -48,8 +48,6 @@ function Game() {
 
 	const check = async (button) => {
 		const value = movie.cast.includes(actor);
-		console.log(movie.cast);
-		console.log(actor)
 		if (value !== button) gameOver();
 		else {
 			setScore(score + 1);
