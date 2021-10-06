@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { CircularProgress, Button, FormLabel } from '@material-ui/core';
 import { useDispatch, useSelector } from "react-redux";
-import { getMovies, getActors, getActorsFromMovie, checkIfActorInMovie } from '../services/ApiConnect';
+import { getMovies, getActors, getActorsFromMovie } from '../services/ApiConnect';
 
 
 function Initial({ stateChanger }) {
