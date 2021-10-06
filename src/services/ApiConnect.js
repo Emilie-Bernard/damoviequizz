@@ -1,54 +1,46 @@
 import axios from 'axios';
 import { baseUrl } from './constances';
 
+import { getRandom } from '../utilities/utils'
+
 export const API_KEY = process.env.REACT_APP_API_KEY;
 
 export const getMovie = () => {
-	let min = 1;
-	let max = 50;
-	let rand = Math.floor(min + Math.random() * (max - min));
+	let rand = getRandom(1,50);
 	return axios
 		.get(baseUrl + 'movie/popular', {
 			params: { api_key: API_KEY, page: rand },
 		})
 		.then((res) => {
-			max = 20;
-			rand = Math.floor(Math.random() * max);
-			while (!res.data.results[rand].poster_path) rand = Math.floor(Math.random() * max);
+			let rand = getRandom(0,20);
+			while (!res.data.results[rand].poster_path) rand = getRandom(0,20);
 			return res.data.results[rand];
 		})
 		.catch((error) => console.log(error));
 };
 
 export const getActor = () => {
-	let min = 1;
-	let max = 50;
-	let rand = Math.floor(min + Math.random() * (max - min));
+	let rand = getRandom(1,50);
 	return axios
 		.get(baseUrl + 'person/popular', {
 			params: { api_key: API_KEY, page: rand },
 		})
 		.then((res) => {
-			max = 20;
-			rand = Math.floor(Math.random() * max);
-			while (res.data.results[rand].profile_path === null) rand = Math.floor(Math.random() * max);
+			rand = getRandom(0,20);
+			while (res.data.results[rand].profile_path === null) rand = getRandom(0,20);
 			return res.data.results[rand];
 		})
 		.catch((error) => console.log(error));
 };
 
 export const getActorFromMovie = (movieId) => {
-	let min = 1;
-	let max = 50;
-	let rand = Math.floor(min + Math.random() * (max - min));
 	return axios
 		.get(baseUrl + 'movie/' + movieId + '/credits', {
 			params: { api_key: API_KEY },
 		})
 		.then((res) => {
-			max = res.data.cast.length;
-			rand = Math.floor(Math.random() * max);
-			while (res.data.cast[rand].profile_path === null) rand = Math.floor(Math.random() * max);
+			let rand = getRandom(0,res.data.cast.length);
+			while (res.data.cast[rand].profile_path === null) rand = getRandom(0,res.data.cast.length);
 			return res.data.cast[rand];
 		})
 		.catch((error) => console.log(error));

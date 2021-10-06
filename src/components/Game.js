@@ -1,15 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { Typography, Button } from '@material-ui/core';
+import { useSelector } from "react-redux";
+
+import { getRandom } from '../utilities/utils'
 
 import GameOver from './GameOver';
-import { getMovie, getActor, getActorFromMovie, checkIfActorInMovie } from '../services/ApiConnect';
 
 function Game() {
+	const {movies, actors, inMovie} = useSelector(state => state);
 	const [seconds, setSeconds] = useState(60);
 	const [score, setScore] = useState(0);
 	const [show, setShow] = useState(false);
 	const [actor, setActor] = useState([]);
 	const [movie, setMovie] = useState([]);
+	const [index, setIndex] = useState(0);
 
 	useEffect(() => {
 		let myInterval = setInterval(async () => {
@@ -30,11 +34,9 @@ function Game() {
 	});
 
 	const findFilmMovie = async () => {
-		const newMovie = await getMovie();
-		setMovie(newMovie);
-		let rand = Math.floor(Math.random() * 50);
-		if (rand % 3 === 0) setActor(await getActorFromMovie(newMovie.id));
-		else setActor(await getActor());
+		setIndex(getRandom(0,movies.length));
+		setMovie(movies[index]);
+		setActor(actors[index]);
 	};
 
 	const gameOver = async () => {
@@ -43,7 +45,7 @@ function Game() {
 	};
 
 	const check = async (button) => {
-		const value = await checkIfActorInMovie(movie.id, actor.id);
+		const value = inMovie[index];
 		if (value !== button) gameOver();
 		else {
 			setScore(score + 1);
