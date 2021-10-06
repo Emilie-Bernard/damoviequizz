@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/damoviequizz/static/css/main.32f3aea5.chunk.css",
+    "main.js": "/damoviequizz/static/js/main.b454a196.chunk.js",
+    "main.js.map": "/damoviequizz/static/js/main.b454a196.chunk.js.map",
+    "runtime-main.js": "/damoviequizz/static/js/runtime-main.fae606a9.js",
+    "runtime-main.js.map": "/damoviequizz/static/js/runtime-main.fae606a9.js.map",
+    "static/js/2.450b6577.chunk.js": "/damoviequizz/static/js/2.450b6577.chunk.js",
+    "static/js/2.450b6577.chunk.js.map": "/damoviequizz/static/js/2.450b6577.chunk.js.map",
+    "static/js/3.e9a4e772.chunk.js": "/damoviequizz/static/js/3.e9a4e772.chunk.js",
+    "static/js/3.e9a4e772.chunk.js.map": "/damoviequizz/static/js/3.e9a4e772.chunk.js.map",
+    "index.html": "/damoviequizz/index.html",
+    "static/css/main.32f3aea5.chunk.css.map": "/damoviequizz/static/css/main.32f3aea5.chunk.css.map",
+    "static/js/2.450b6577.chunk.js.LICENSE.txt": "/damoviequizz/static/js/2.450b6577.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.fae606a9.js",
+    "static/js/2.450b6577.chunk.js",
+    "static/css/main.32f3aea5.chunk.css",
+    "static/js/main.b454a196.chunk.js"
+  ]
+}
