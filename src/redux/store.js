@@ -1,7 +1,7 @@
 const initialState = {
   movies: [],
   actors: [],
-  inMovie: []
+  loading: false
 }
 
 function reducer(state = initialState, action) {
@@ -16,25 +16,10 @@ function reducer(state = initialState, action) {
         ...state,
         actors: action.actors
       };
-    case "INITINMOVIE":
+    case "SETLOADING":
       return {
         ...state,
-        inMovie: action.inMovie
-      };
-    case "ADDMOVIE":
-      return {
-        ...state,
-        movies: [...state.movies, action.movie]
-      };
-    case "ADDACTOR":
-      return {
-        ...state,
-        actors: [...state.actors, action.actor]
-      };
-    case "ADDINMOVIE":
-      return {
-        ...state,
-        inMovie: [...state.inMovie, action.inMovie]
+        loading: action.loading
       };
     default:
       return state;
