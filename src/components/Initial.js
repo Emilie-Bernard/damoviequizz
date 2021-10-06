@@ -1,42 +1,40 @@
 import React, { useState, useEffect } from 'react';
-import { TextField, Button, FormLabel } from '@material-ui/core';
+import { CircularProgress, Button, FormLabel } from '@material-ui/core';
 import { useDispatch, useSelector } from "react-redux";
-import { getMovie, getActor, getActorFromMovie, checkIfActorInMovie } from '../services/ApiConnect';
+import { getMovies, getActors, getActorsFromMovie, checkIfActorInMovie } from '../services/ApiConnect';
 
 
 function Initial({ stateChanger }) {
-  const { movies } = useSelector(state => state);
+  const { loading } = useSelector(state => state);
   const dispatch = useDispatch();
-  let inMovie = [];
-  let count = 1;
 
   useEffect(() => {
-    initDatas();
+    initData();
   }, []);
 
-  const initDatas = async() => {
-    for (let i = 0; i < 40; i++) {
-      const newMovie = await getMovie();
-      let newActor = await getActor();
-      if (inMovie.length > 0)
-        count = inMovie.filter(Boolean).length;
-      if (inMovie.length / count > 2) {
-        newActor = await getActorFromMovie(newMovie.id);
-      }
-      const newInMovie = await checkIfActorInMovie(newMovie.id, newActor.id);
-      dispatch({
-        type: "ADDMOVIE",
-        movie: newMovie
-      });
-      dispatch({
-        type: "ADDACTOR",
-        actor: newActor
-      });
-      dispatch({
-        type: "ADDINMOVIE",
-        inMovie: newInMovie
-      });
-    };
+  const initData = async () => {
+    dispatch({
+      type: "SETLOADING",
+      loading: true
+    });
+    let movies = await getMovies();
+    movies.map(async (movie) => {
+      const actorsfrommovie = await getActorsFromMovie(movie.id);
+      movie.cast = actorsfrommovie;
+    });
+    const actors = await getActors();
+    dispatch({
+      type: "INITMOVIES",
+      movies: movies
+    });
+    dispatch({
+      type: "INITACTORS",
+      actors: actors
+    });
+    dispatch({
+      type: "SETLOADING",
+      loading: false
+    });
   };
 
   return (
@@ -49,7 +47,10 @@ function Initial({ stateChanger }) {
       <img alt="movie" width="550" height="350" src={process.env.PUBLIC_URL + '/howtoplay.png'} />
       <FormLabel>
         <div style={{ padding: 30 }}>
-          <Button variant="contained" onClick={() => stateChanger(1)}>Jouer</Button>
+          {loading
+            ? <CircularProgress />
+            : <Button variant="contained" onClick={() => stateChanger(1)}>Jouer</Button>
+          }
         </div>
       </FormLabel>
     </div>

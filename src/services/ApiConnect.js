@@ -19,6 +19,18 @@ export const getMovie = () => {
 		.catch((error) => console.log(error));
 };
 
+export const getMovies = () => {
+	let rand = getRandom(1,50);
+	return axios
+		.get(baseUrl + 'movie/popular', {
+			params: { api_key: API_KEY, page: rand },
+		})
+		.then((res) => {
+			return res.data.results.filter(movie => movie.poster_path && movie.title);;
+		})
+		.catch((error) => console.log(error));
+};
+
 export const getActor = () => {
 	let rand = getRandom(1,50);
 	return axios
@@ -33,15 +45,25 @@ export const getActor = () => {
 		.catch((error) => console.log(error));
 };
 
-export const getActorFromMovie = (movieId) => {
+export const getActors = () => {
+	let rand = getRandom(1,50);
+	return axios
+		.get(baseUrl + 'person/popular', {
+			params: { api_key: API_KEY, page: rand },
+		})
+		.then((res) => {
+			return res.data.results.filter(actor => actor.profile_path && actor.name);
+		})
+		.catch((error) => console.log(error));
+};
+
+export const getActorsFromMovie = (movieId) => {
 	return axios
 		.get(baseUrl + 'movie/' + movieId + '/credits', {
 			params: { api_key: API_KEY },
 		})
 		.then((res) => {
-			let rand = getRandom(0,res.data.cast.length);
-			while (res.data.cast[rand].profile_path === null) rand = getRandom(0,res.data.cast.length);
-			return res.data.cast[rand];
+			return res.data.cast.filter(actor => actor.profile_path && actor.name);
 		})
 		.catch((error) => console.log(error));
 };

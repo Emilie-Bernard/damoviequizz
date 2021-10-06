@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Typography, Button } from '@material-ui/core';
 import { useSelector } from "react-redux";
 
+import { sample } from 'lodash'
 import { getRandom } from '../utilities/utils'
 
 import GameOver from './GameOver';
@@ -34,9 +35,10 @@ function Game() {
 	});
 
 	const findFilmMovie = async () => {
-		setIndex(getRandom(0,movies.length));
-		setMovie(movies[index]);
-		setActor(actors[index]);
+		const newMovie = sample(movies)
+		const rand = getRandom(0,2);
+		if (rand % 2 == 1) setActor(sample(actors));
+		else setActor(sample(newMovie.cast));
 	};
 
 	const gameOver = async () => {
@@ -45,7 +47,9 @@ function Game() {
 	};
 
 	const check = async (button) => {
-		const value = inMovie[index];
+		const value = movie.cast.includes(actor);
+		console.log(movie.cast);
+		console.log(actor)
 		if (value !== button) gameOver();
 		else {
 			setScore(score + 1);
