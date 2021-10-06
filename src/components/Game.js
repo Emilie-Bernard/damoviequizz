@@ -3,18 +3,16 @@ import { Typography, Button } from '@material-ui/core';
 import { useSelector } from "react-redux";
 
 import { sample } from 'lodash'
-import { getRandom } from '../utilities/utils'
 
 import GameOver from './GameOver';
 
 function Game() {
-	const {movies, actors, inMovie} = useSelector(state => state);
+	const {movies, actors} = useSelector(state => state);
 	const [seconds, setSeconds] = useState(60);
 	const [score, setScore] = useState(0);
 	const [show, setShow] = useState(false);
 	const [actor, setActor] = useState([]);
 	const [movie, setMovie] = useState([]);
-	const [index, setIndex] = useState(0);
 
 	useEffect(() => {
 		let myInterval = setInterval(async () => {
