@@ -3,7 +3,7 @@ import { baseUrl } from './constances';
 
 import { getRandom } from '../utilities/utils'
 
-export const API_KEY = process.env.REACT_APP_API_KEY;
+export const API_KEY = "7ea5f490261a949e52930517e1b4657c";
 
 export const getMovies = () => {
 	let rand = getRandom(1,50);
